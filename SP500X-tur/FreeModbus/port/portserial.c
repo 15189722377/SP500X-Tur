@@ -106,7 +106,7 @@ xMBPortSerialInit( UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits, eMBParity e
   //GPIOA.10 USART1_Rx
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;       //浮动输入
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;       //浮动输入
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 
   USART_InitStructure.USART_BaudRate = ulBaudRate;            //只修改波特率
@@ -124,7 +124,7 @@ xMBPortSerialInit( UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits, eMBParity e
 	{
 		USART_InitStructure.USART_Parity = USART_Parity_No;
 	}
- // USART_InitStructure.USART_Parity = USART_Parity_Even;
+  USART_InitStructure.USART_Parity = USART_Parity_Even;
 
   USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;

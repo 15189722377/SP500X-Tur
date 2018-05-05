@@ -63,3 +63,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+*.bak
+IAPF103/STM32F10x_AN2557_FW_V3.3.0/Project/IAP/MDK-ARM/IAP.uvopt

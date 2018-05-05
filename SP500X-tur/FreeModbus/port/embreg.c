@@ -212,6 +212,18 @@ eMBErrorCode eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usN
 				eStatus=MB_ENOREG;			
 			}
 			break;
+				//测量数据寄存器  荧光相关
+		case PHREG_FLAG:              //48001
+			//判断地址和寄存器数目合法性
+			if(usAddress + usNRegs <= PHREG_SADDR + PHREG_NREGS)
+			{
+				data_pointer= (void *)&sensor_param;
+			}
+			else
+			{
+				eStatus=MB_ENOREG;			
+			}
+			break;
 		
 		//非法地址
 		default:

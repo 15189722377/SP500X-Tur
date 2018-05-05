@@ -6,6 +6,9 @@
 #include "flash.h"
 #include "app.h"
 #include "embreg.h"
+#include "LTC2630ISC6.h"
+#include "SWITCH.H"
+#include "ADC.H"
 
 u8 bitmodbus;
 
@@ -24,6 +27,7 @@ void Configure_IWDG(void)
 	IWDG_Enable();	
 }
 
+u32 i=0;
 int main()
 {
 	#define VECT_TAB_OFFSET  0x3000
@@ -44,11 +48,18 @@ int main()
 		
  	eMBInit(MB_RTU, comm_settings.modbusAddr, 0x02, comm_settings.modbusBaud, comm_settings.modbusParity);
   eMBEnable();  
-	
+	LTC2630ISC6_init();
+	switch_GPIO_INIT();
+	turnLed1();
+	write_to_LTC2630ISC6(0X30,4000);
+	Adc_Init();
   while(1)
  { 	
 		eMBPoll(); 
 	  FunctionPoll();
+		i=Get_Adc_Average(4,10);
+	 i=i+1;
+	 
 	}
 }
 
