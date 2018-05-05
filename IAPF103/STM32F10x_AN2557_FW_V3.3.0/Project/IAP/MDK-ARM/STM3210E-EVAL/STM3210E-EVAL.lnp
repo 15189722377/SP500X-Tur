@@ -1,5 +1,0 @@
---cpu Cortex-M3 ".\stm3210e-eval\common.o" ".\stm3210e-eval\download.o" ".\stm3210e-eval\main.o" ".\stm3210e-eval\stm32f10x_it.o" ".\stm3210e-eval\ymodem.o" ".\stm3210e-eval\upload.o" ".\stm3210e-eval\stm32f10x_dma.o" ".\stm3210e-eval\stm32f10x_exti.o" ".\stm3210e-eval\stm32f10x_flash.o" ".\stm3210e-eval\stm32f10x_gpio.o" ".\stm3210e-eval\stm32f10x_i2c.o" ".\stm3210e-eval\stm32f10x_rcc.o" ".\stm3210e-eval\stm32f10x_sdio.o" ".\stm3210e-eval\stm32f10x_spi.o" ".\stm3210e-eval\stm32f10x_usart.o" ".\stm3210e-eval\misc.o" ".\stm3210e-eval\core_cm3.o" ".\stm3210e-eval\system_stm32f10x.o" ".\stm3210e-eval\startup_stm32f10x_md_vl.o" 
---library_type=microlib --strict --scatter ".\STM3210E-EVAL\STM3210E-EVAL.sct" 
---summary_stderr --info summarysizes --map --xref --callgraph --symbols 
---info sizes --info totals --info unused --info veneers 
- --list ".\STM3210E-EVAL\STM3210E-EVAL.map" -o .\STM3210E-EVAL\STM3210E-EVAL.axf
