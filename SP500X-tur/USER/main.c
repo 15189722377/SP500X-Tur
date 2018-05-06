@@ -9,6 +9,7 @@
 #include "LTC2630ISC6.h"
 #include "SWITCH.H"
 #include "ADC.H"
+#include "tur.h"
 
 u8 bitmodbus;
 
@@ -50,16 +51,12 @@ int main()
   eMBEnable();  
 	LTC2630ISC6_init();
 	switch_GPIO_INIT();
-	turnLed1();
-	write_to_LTC2630ISC6(0X30,4000);
 	Adc_Init();
   while(1)
  { 	
 		eMBPoll(); 
-	  FunctionPoll();
-		i=Get_Adc_Average(4,10);
-	 i=i+1;
-	 
+	  FunctionPoll(); 
+	  getS365(20);
 	}
 }
 
