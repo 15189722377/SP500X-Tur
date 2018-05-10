@@ -1,8 +1,8 @@
 #include "stm32f10x.h"
 #include "stm32f10x_iwdg.h"
 #include "sys.h"
-#include "mb.h"
-#include "mbutils.h"
+//#include "mb.h"
+//#include "mbutils.h"
 #include "flash.h"
 #include "app.h"
 #include "embreg.h"
@@ -49,14 +49,17 @@ int main()
 		
  	eMBInit(MB_RTU, comm_settings.modbusAddr, 0x02, comm_settings.modbusBaud, comm_settings.modbusParity);
   eMBEnable();  
-	LTC2630ISC6_init();
-	switch_GPIO_INIT();
+	LTC2630ISC6_Init();
+	switch_GPIOInit();
 	Adc_Init();
+	TIM2_MeasureInit();
+	TIM3_ModpollInit();
+	
   while(1)
  { 	
-		eMBPoll(); 
+		//eMBPoll(); 
 	  FunctionPoll(); 
-	  getS365(20);
+	  //getS365(20);
 	}
 }
 

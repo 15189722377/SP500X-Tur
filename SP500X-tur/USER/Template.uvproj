@@ -30,7 +30,6 @@
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile>SFD\ST\STM32F1xx\STM32F103xx.sfrSVD=SFD\ST\STM32F1xx\STM32F103xx.sfr</SFDFile>
-          <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -98,7 +97,6 @@
           <StopOnExitCode>3</StopOnExitCode>
           <CustomArgument></CustomArgument>
           <IncludeLibraryModules></IncludeLibraryModules>
-          <ComprImg>1</ComprImg>
         </CommonProperty>
         <DllOption>
           <SimDllName>SARMCM3.DLL</SimDllName>
@@ -128,7 +126,6 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
-            <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -140,11 +137,9 @@
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <RestoreTracepoints>0</RestoreTracepoints>
-            <RestoreSysVw>1</RestoreSysVw>
-            <UsePdscDebugDescription>0</UsePdscDebugDescription>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>11</TargetSelection>
+          <TargetSelection>13</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -170,14 +165,9 @@
             <Capability>1</Capability>
             <DriverSelection>4104</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
           <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
-          <pFcarmOut></pFcarmOut>
-          <pFcarmGrp></pFcarmGrp>
-          <pFcArmRoot></pFcArmRoot>
-          <FcArmLst>0</FcArmLst>
         </Utilities>
         <TargetArmAds>
           <ArmAdsMisc>
@@ -356,13 +346,11 @@
             <wLevel>0</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
-            <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\UART2;..\FreeModbus\modbus\ascii;..\FreeModbus\modbus\functions;..\FreeModbus\modbus\include;..\FreeModbus\modbus\rtu;..\FreeModbus\modbus\tcp;..\FreeModbus\port;..\HARDWARE\LED;..\HARDWARE\APP;..\HARDWARE\FLASH;..\HARDWARE\AD5410\inc;..\HARDWARE\LTC2440\inc;..\HARDWARE\temperature\inc;..\SYSTEM\delay;..\HARDWARE\G;..\HARDWARE\LTC2630ISC6;..\HARDWARE\SWITCH;..\HARDWARE\ADC</IncludePath>
+              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\UART2;..\FreeModbus\modbus\ascii;..\FreeModbus\modbus\functions;..\FreeModbus\modbus\include;..\FreeModbus\modbus\rtu;..\FreeModbus\modbus\tcp;..\FreeModbus\port;..\HARDWARE\LED;..\HARDWARE\APP;..\HARDWARE\FLASH;..\HARDWARE\AD5410\inc;..\HARDWARE\LTC2440\inc;..\HARDWARE\temperature\inc;..\SYSTEM\delay;..\HARDWARE\G;..\HARDWARE\LTC2630ISC6;..\HARDWARE\SWITCH;..\HARDWARE\ADC;..\HARDWARE\tur</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -374,7 +362,6 @@
             <SwStkChk>0</SwStkChk>
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
-            <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -391,7 +378,6 @@
             <useFile>0</useFile>
             <TextAddressRange>0x08000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
-            <pXoBase></pXoBase>
             <ScatterFile></ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
@@ -429,6 +415,11 @@
               <FileName>flash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\FLASH\flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>tur.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\tur\tur.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -604,13 +595,6 @@
         </Group>
         <Group>
           <GroupName>README</GroupName>
-          <Files>
-            <File>
-              <FileName>readme.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\README\readme.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>HW</GroupName>

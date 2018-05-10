@@ -18,9 +18,8 @@
 #include "delay.h"
 #include "stm32f10x_adc.h"
 
-
 void Adc_Init(void);
 u16  Get_Adc(u8 ch); 
-u16 Get_Adc_Average(u8 ch,u8 times); 
+float Get_Adc_Average(u8 ch,u8 times); 
  
 #endif 

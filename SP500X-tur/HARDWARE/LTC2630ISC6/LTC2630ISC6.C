@@ -63,7 +63,7 @@ void write_to_LTC2630ISC6(u8 Cmd, u16 Dat)
 	DAC_CS_HIGH;
 }
 
-void LTC2630ISC6_init(void)
+void LTC2630ISC6_Init(void)
 {
 	 LTC2630ISC6_GPIO_INIT();
 	 write_to_LTC2630ISC6(0X60,0); //select internal reference(power-on reset default)

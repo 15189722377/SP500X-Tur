@@ -30,7 +30,7 @@
 #define LTC2630ISC6_POWER_DOWN_ 0X70
 #define LTC2630ISC6_WRITE_TO_AND_UPDATE 0X30
 
-void LTC2630ISC6_init(void );
+void LTC2630ISC6_Init(void );
 
 void write_to_LTC2630ISC6(u8 Cmd, u16 Dat);
 

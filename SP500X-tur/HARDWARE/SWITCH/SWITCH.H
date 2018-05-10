@@ -14,7 +14,8 @@
 #define  LED_SW2_H  GPIO_SetBits(GPIOB,GPIO_Pin_15)
 #define  LED_SW2_L  GPIO_ResetBits(GPIOB,GPIO_Pin_15)
 
-void switch_GPIO_INIT(void);
+void switch_GPIOInit(void);
 void turnLed1(void);
+void turnOffLeds(void);
 
 #endif

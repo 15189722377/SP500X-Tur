@@ -1,6 +1,6 @@
 #include "SWITCH.h"
 
-void switch_GPIO_INIT(void)
+void switch_GPIOInit(void)
 {
 	GPIO_InitTypeDef g;
 	g.GPIO_Mode=GPIO_Mode_Out_PP;
@@ -9,7 +9,7 @@ void switch_GPIO_INIT(void)
 	g.GPIO_Pin=GPIO_Pin_8;   //SW1
 	GPIO_Init(GPIOA,&g);
 	
-		g.GPIO_Pin=GPIO_Pin_9;   //EN
+	g.GPIO_Pin=GPIO_Pin_9;   //EN
 	GPIO_Init(GPIOA,&g);
 	
 	g.GPIO_Pin=GPIO_Pin_15;   //SW2
@@ -21,4 +21,9 @@ void turnLed1(void)
 	 EN_H;
 	 LED_SW1_H;
 	 LED_SW2_L;
+}
+
+void turnOffLeds(void)
+{
+	EN_L;
 }

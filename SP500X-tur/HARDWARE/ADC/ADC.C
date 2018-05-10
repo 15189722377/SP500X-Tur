@@ -12,6 +12,7 @@
   ******************************************************************************
  */ 
 #include "ADC.H"
+
 	void  Adc_Init(void)
 { 	
 	ADC_InitTypeDef ADC_InitStructure; 
@@ -67,15 +68,22 @@ u16 Get_Adc(u8 ch)
 	return ADC_GetConversionValue(ADC1);	//返回最近一次ADC1规则组的转换结果
 }
 
-u16 Get_Adc_Average(u8 ch,u8 times)
+float Get_Adc_Average(u8 ch,u8 times)
 {
-	u32 temp_val=0;
+	float sum=0;
+	float adcValue=1.0;
 	u8 t;
+	
 	for(t=0;t<times;t++)
 	{
-		temp_val+=Get_Adc(ch);
+		sum+=Get_Adc(ch);
 		//delay_ms(5);
 	}
-	return temp_val/times;	
+	if(times>0)
+	{
+	  adcValue=sum/times;
+	}
+	
+	return adcValue;	
 } 	
 

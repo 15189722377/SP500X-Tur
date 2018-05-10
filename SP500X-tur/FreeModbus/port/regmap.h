@@ -28,6 +28,14 @@ typedef uint32_t uint32;
 
 /* Exported_Types -------------------------------------------------------------*/
 
+typedef enum
+{
+	NOERR=0,
+	S365_ERR=0x0001,
+	SOLUTION_VALUE_ERR=0x0002,
+	S365DI_ERR=0x0004	
+}CalibStatus;
+
 #pragma pack(2)
 
 typedef	struct sysStatus
@@ -61,54 +69,52 @@ typedef	struct measureSettings
 	uint16		reserved[45];			    /* 43006-43050   reserved  保留*/
 } MEASURE_SETTINGS_T;
 
-
 typedef	struct calibSettings
 {																		/* Register		Type  		 R/W */
 	uint16		calibType;							/* 44001	16bit integer	 r/w 标定类型(1点标定,2点标定) */
-	uint16		firstCalibSolution;			/* 44002	32bit float		r/w  第一点标定值 */
-	uint16	  secondCalibSolution;		/* 44003	32bit float		r/w  第二点标定值 */
+	float     reserved1;              /* 44002-44003  float */
 	uint16		calibCommand;						/* 44004	16bit integer    r/w 标定命令 1校准  2(4-20ma设置)  3参数复位*/
-	float    K;                  		  /* 44005  电导率系数*/
-	float    Ra;											/* 44007  */
-	float    Rb;											/* 44009  */
-	float		 Rc;											/* 44011  */
-	float    Rd;											/* 44013  */
-	uint16		reserved[36];				    /* 44015-44050 reserved  保留*/
+	float     solutionL;              /* 44005-44006  float */
+	float     solutionH;              /* 44007-44008  float */
+	float     s365L;                  /* 44009-44010  float */
+	float     s365H;                  /* 44011-44012  float */
+	float     k;                      /* 44013-44014  float */
+	float     b;                      /* 44015-44016  float */
+	uint16		reserved[34];				    /* 44017-44050 reserved  保留*/
 } CALIB_SETTINGS_T;
-
 
 typedef	struct filterSettings    //sensorParam存储未调通 ，暂时使用此寄存器存参数 20180506
 {	
-		uint16    darks365;           /* 48001   16bit integer   it's useless for st510, only uesd to compat with st500 register */
-	float	  slope;			  /* 48002   32bit float     r/w */
-	float     intercept;          /* 48004   32bit float     useless r/w */
-	float	  t1;				  /* 48006   32bit float     r/w */
-	float	  t2;				  /* 48008   32bit float     r/w */
-	uint16    mARange;            /* 48010   16bit integer   r/w   4-20mA scaling factor, mA=ppb*16/mARange+4 */
-	uint16	  ct365;			  /* 48011   16bit integer   r/w */
-	uint16	  cs365;			  /* 48012   16bit integer   r/w */
-	uint16	  ct420;			  /* 48013   16bit integer   r/w */
-	uint16	  cs420;			  /* 48014   16bit integer   r/w */
-	uint16	  t365di;			  /* 48015   16bit integer   r/w */
-	uint16	  s365di;			  /* 48016   16bit integer   r/w */
-	uint16	  t420di;			  /* 48017   16bit integer   r/w */
-	uint16	  s420di;			  /* 48018   16bit integer   r/w */
-	uint16	  t365;				  /* 48019   16bit integer   r/w */
-	uint16	  s365;				  /* 48020   16bit integer   r/w */
-	uint16	  t420;				  /* 48021   16bit integer   r/w */
-	uint16	  s420;				  /* 48022   16bit integer   r/w */
-	uint16	  ct365Factory;		  /* 48023   16bit integer   r/w */
-	uint16	  cs365Factory;		  /* 48024   16bit integer   r/w */
-	uint16	  ct420Factory;		  /* 48025   16bit integer   r/w */
-	uint16	  cs420Factory;		  /* 48026   16bit integer   r/w */
-	uint16	  t365diFactory;	  /* 48027   16bit integer   r/w */
-	uint16	  s365diFactory;	  /* 48028   16bit integer   r/w */
-	uint16	  t420diFactory;	  /* 48029   16bit integer   r/w */
-	uint16	  s420diFactory;	  /* 48030   16bit integer   r/w */
-	uint16    errorCode;		  /* 48031   16bit integer   useless r/w */
-	float	  slopeFactory;		  /* 48032   float */
-	uint16    factoryParamSaved; /* 48034 */
-	uint16		reserved[16];						/* 45001-45050   reserved  保留*/
+	uint16    darks365;           /* 45001   16bit integer   it's useless for st510, only uesd to compat with st500 register */
+	float	  slope;			          /* 45002   32bit float     r/w */
+	float     intercept;          /* 45004   32bit float     useless r/w */
+	float	  t1;				            /* 45006   32bit float     r/w */
+	float	  t2;				            /* 45008   32bit float     r/w */
+	uint16    mARange;            /* 45010   16bit integer   r/w   4-20mA scaling factor, mA=ppb*16/mARange+4 */
+	uint16	  ct365;			        /* 45011   16bit integer   r/w */
+	uint16	  cs365;			        /* 45012   16bit integer   r/w */
+	uint16	  ct420;			        /* 45013   16bit integer   r/w */
+	uint16	  cs420;			        /* 45014   16bit integer   r/w */
+	uint16	  t365di;			        /* 45015   16bit integer   r/w */
+	uint16	  s365di;			        /* 45016   16bit integer   r/w */
+	uint16	  t420di;			        /* 45017   16bit integer   r/w */
+	uint16	  s420di;			        /* 45018   16bit integer   r/w */
+	uint16	  t365;				        /* 45019   16bit integer   r/w */
+	uint16	  s365;				        /* 45020   16bit integer   r/w */
+	uint16	  t420;				        /* 45021   16bit integer   r/w */
+	uint16	  s420;				        /* 45022   16bit integer   r/w */
+	uint16	  ct365Factory;		    /* 45023   16bit integer   r/w */
+	uint16	  cs365Factory;		    /* 45024   16bit integer   r/w */
+	uint16	  ct420Factory;		    /* 45025   16bit integer   r/w */
+	uint16	  cs420Factory;		    /* 45026   16bit integer   r/w */
+	uint16	  t365diFactory;	    /* 45027   16bit integer   r/w */
+	uint16	  s365diFactory;	    /* 45028   16bit integer   r/w */
+	uint16	  t420diFactory;	    /* 45029   16bit integer   r/w */
+	uint16	  s420diFactory;	    /* 45030   16bit integer   r/w */
+	uint16    errorCode;		      /* 45031   16bit integer   useless r/w */
+	float	  slopeFactory;		      /* 45032   float */
+	uint16    factoryParamSaved;  /* 45034 */
+	uint16		reserved[16];				/* 45035-45050   reserved  保留*/
 } FILTER_SETTINGS_T;
 
 typedef struct measureValues
@@ -116,8 +122,6 @@ typedef struct measureValues
 	float		sensorValue;					/* 46001	32bit float		read  测量值*/
 	float		sensorValue_mA;				/* 46003	32bit float		read  测量值(4-20ma形式)*/
 	float   temperatureValue;			/* 46005	32bit float		read  温度(摄氏度)*/
-	float   i;										/* 46007  */
-	float   v;										/* 46009  */
 	uint16		reserved[40];				/* 46011-46050  1eserved  保留*/
 } MEASURE_VALUES_T;
 

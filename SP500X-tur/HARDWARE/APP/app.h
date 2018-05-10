@@ -11,19 +11,21 @@
 #include "regmap.h"
 #include "flash.h"
 
-#define CONDUCTIVITY	4
+#define HW_VERSION  "1.0"
+#define SW_VERSION  "1.0"
 
 #define MODBUS_PARITY_NONE 	0
 #define MODBUS_PARITY_ODD 	1
 #define MODBUS_PARITY_EVEN 	2
 
-#define TMP_OVERRANGE		6
+/*-------------------功能轮询命令宏-------------------*/
+#define CMD_JUMP_BOOTLOADER  7  //进入BootLoader
+#define CMD_PARA_RESET	3		//参数复位
+#define CMD_CALIB_STEP2	2		//4-20MA设置
+#define CMD_CALIB_STEP1	1		//校准
+#define CMD_NONE      0    //NONE
 
-//校准点个数
-#define CAL_POINT_NUM	2
 
-#define HW_VERSION  "1.0"
-#define SW_VERSION  "1.0"
 
 //系统相关寄存器声明
 extern SYS_STATUS_T system_status;
