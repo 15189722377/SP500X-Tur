@@ -11,8 +11,6 @@
 #include "ADC.H"
 #include "tur.h"
 
-u8 bitmodbus;
-
 void Configure_IWDG(void)
 {
   RCC->CSR |= RCC_CSR_LSION; 
@@ -51,15 +49,20 @@ int main()
   eMBEnable();  
 	LTC2630ISC6_Init();
 	switch_GPIOInit();
-	Adc_Init();
+	//Adc_Init();
 	TIM2_MeasureInit();
-	TIM3_ModpollInit();
+	TIM1_ModpollInit();
 	
   while(1)
  { 	
 		//eMBPoll(); 
 	  FunctionPoll(); 
 	  //getS365(20);
+	  if(isMeasureFlg==1)
+		{
+			isMeasureFlg=0;
+			measureTurb();
+		}
 	}
 }
 

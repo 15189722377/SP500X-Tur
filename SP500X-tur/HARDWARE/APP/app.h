@@ -12,7 +12,7 @@
 #include "flash.h"
 
 #define HW_VERSION  "1.0"
-#define SW_VERSION  "1.0"
+#define SW_VERSION  "1.1"
 
 #define MODBUS_PARITY_NONE 	0
 #define MODBUS_PARITY_ODD 	1
@@ -25,7 +25,7 @@
 #define CMD_CALIB_STEP1	1		//校准
 #define CMD_NONE      0    //NONE
 
-
+extern u8 bitmodbus;
 
 //系统相关寄存器声明
 extern SYS_STATUS_T system_status;

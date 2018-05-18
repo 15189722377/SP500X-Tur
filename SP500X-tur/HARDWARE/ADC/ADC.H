@@ -18,6 +18,8 @@
 #include "delay.h"
 #include "stm32f10x_adc.h"
 
+float ADC_ReadChannel(u8 channel,u16 times);
+
 void Adc_Init(void);
 u16  Get_Adc(u8 ch); 
 float Get_Adc_Average(u8 ch,u8 times); 

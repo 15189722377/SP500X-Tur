@@ -76,11 +76,11 @@ typedef	struct calibSettings
 	uint16		calibCommand;						/* 44004	16bit integer    r/w 标定命令 1校准  2(4-20ma设置)  3参数复位*/
 	float     solutionL;              /* 44005-44006  float */
 	float     solutionH;              /* 44007-44008  float */
-	float     s365L;                  /* 44009-44010  float */
-	float     s365H;                  /* 44011-44012  float */
-	float     k;                      /* 44013-44014  float */
-	float     b;                      /* 44015-44016  float */
-	uint16		reserved[34];				    /* 44017-44050 reserved  保留*/
+	uint16     s365L;                 /* 44009 */
+	uint16     s365H;                 /* 44010 */
+	float     k;                      /* 44011-44012  float */
+	float     b;                      /* 44013-44014  float */
+	uint16		reserved[36];				    /* 44015-44050 reserved  保留*/
 } CALIB_SETTINGS_T;
 
 typedef	struct filterSettings    //sensorParam存储未调通 ，暂时使用此寄存器存参数 20180506

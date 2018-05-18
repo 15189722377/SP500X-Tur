@@ -595,13 +595,6 @@
         </Group>
         <Group>
           <GroupName>README</GroupName>
-          <Files>
-            <File>
-              <FileName>readme.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\README\readme.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>HW</GroupName>

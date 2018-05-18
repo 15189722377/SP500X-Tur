@@ -3,6 +3,7 @@
 #include "string.h"
 #include "tur.h"
 
+u8 bitmodbus;
 float s365DiCalib,s365CalibL,s365CalibH,S365Calib;
 
 /*------------------Modbus寄存器定义-----------------*/
@@ -75,7 +76,6 @@ void Rset()
   * @param  无
   * @retval 无
   */
-extern u8 bitmodbus;
 void FunctionPoll(void)
 {
 	if(MODBUS_isRegWrite)
@@ -103,16 +103,20 @@ void FunctionPoll(void)
 			calib_settings.calibCommand=CMD_NONE;
 			system_status.calibStatus=NOERR;
 			
-			s365CalibL=s365F;
+			TIM_Cmd(TIM2,DISABLE); 
+			s365CalibL=Calib_S365();
 			calib_settings.s365L=s365CalibL*10;
+			TIM_Cmd(TIM2,ENABLE); 
 			break;	
 		}
 		case CMD_CALIB_STEP2:
 		{
 			calib_settings.calibCommand=CMD_NONE;
 			
-			s365CalibH=s365F;
+			TIM_Cmd(TIM2,DISABLE); 
+			s365CalibH=Calib_S365();
 			calib_settings.s365H=s365CalibH*10;
+			TIM_Cmd(TIM2,ENABLE); 
 			if((calib_settings.s365H-calib_settings.s365L)!=0)
 			{
 				calib_settings.k=(calib_settings.solutionH-calib_settings.solutionL)/(s365CalibH-s365CalibL);
@@ -122,12 +126,13 @@ void FunctionPoll(void)
 					s365DiCalib=-calib_settings.b/calib_settings.k;
 					if(s365DiCalib>0)
 					{
-						S365Calib=s365F/s365DiCalib;
+						S365Calib=s365CalibH/s365DiCalib;
 						if(S365Calib-1.0>0)
 						{
 							filter_settings.slope=calib_settings.solutionH/(S365Calib-1.0);
 							filter_settings.s365di=s365DiCalib*10;
 							system_status.calibStatus=NOERR;
+							StoreModbusReg();
 						}
 					}
 					else
@@ -156,7 +161,5 @@ void FunctionPoll(void)
 			break;
 		}
 		default: break;
-	}
-
-	
+	}	
 }

@@ -18,20 +18,21 @@ u8 isMeasureFlg=0;
 // 	return S365;
 // }
 
+/* ADC_ReadChannel的采样次数不可以超过DMA接收数组的长度 */
 void measureTurb(void)
 {
 	float ntu,S365,darks365F,adcF;
 	
 	turnOffLeds();
 	delay_ms(15);
-	darks365F=Get_Adc_Average(7,10);
+	darks365F=ADC_ReadChannel(S365CHANNEL,100);
 	filter_settings.darks365=darks365F*10;
 	
 	write_to_LTC2630ISC6(0X30,filter_settings.cs365);
 	turnLed1();
 	delay_ms(15);
-	adcF=Get_Adc_Average(7,20);
-	turnOffLeds();
+	adcF=ADC_ReadChannel(S365CHANNEL,200);
+	//turnOffLeds();
 	
 	if(adcF>darks365F)
 	{
@@ -56,6 +57,36 @@ void measureTurb(void)
 	}
 	lastNTU=ntu;
 	measure_values.sensorValue=ntu;
+}
+
+float Calib_S365(void)
+{
+	float darkC,adcC,s365C;
+	
+	turnOffLeds();
+	delay_ms(15);
+	darkC=ADC_ReadChannel(S365CHANNEL,100);
+	filter_settings.darks365=darkC*10;
+	
+	write_to_LTC2630ISC6(0X30,filter_settings.cs365);
+	turnLed1();
+	delay_ms(15);
+	adcC=ADC_ReadChannel(S365CHANNEL,200);
+	//turnOffLeds();
+	
+	if(adcC>darkC)
+	{
+		s365C=adcC-darkC;
+		filter_settings.s365=s365C*10;
+		system_status.calibStatus&=~GROUND_ERR;
+	}
+	else
+	{
+		s365C=1.0;
+		filter_settings.s365=filter_settings.s365di;
+		system_status.calibStatus|=GROUND_ERR;
+	}
+	return s365C;
 }
 
 void TIM2_MeasureInit(void)
@@ -90,55 +121,56 @@ void TIM2_MeasureInit(void)
 
 void TIM2_IRQHandler(void)
 {  
-  TIM_ClearITPendingBit(TIM2,TIM_IT_Update);
 	if( TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)
 	{
-		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);
 		if(++measureCount>=measure_settings.sampleCycle)
 		{
  			IWDG_ReloadCounter();    //喂狗
 			isMeasureFlg=1;
 			measureCount=0;
 		} 
+		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);
 	}	
 }
 
-void TIM3_ModpollInit(void)
+void TIM1_ModpollInit(void)
 {
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
   NVIC_InitTypeDef NVIC_InitStructure;
   uint16_t PrescalerValue = 0;
   
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
   
-  PrescalerValue = (uint16_t) (SystemCoreClock / 1000000) - 1; // 1M, 1us
+  PrescalerValue = (uint16_t) (SystemCoreClock / 10000) - 1; // 0.1ms
   
-  TIM_TimeBaseStructure.TIM_Period =24;     
+  TIM_TimeBaseStructure.TIM_Period =99;     
   TIM_TimeBaseStructure.TIM_Prescaler = PrescalerValue;  
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-  TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+	TIM_TimeBaseStructure.TIM_RepetitionCounter=0;
+  TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
   
-  TIM_ARRPreloadConfig(TIM3, ENABLE);
+  TIM_ARRPreloadConfig(TIM1, ENABLE);
   
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-  NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannel = TIM1_UP_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;  
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;  
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
 
-	TIM_ClearITPendingBit(TIM3,TIM_IT_Update); 
-	TIM_ITConfig(TIM3, TIM_IT_Update,ENABLE);
-  TIM_Cmd(TIM3,ENABLE);
+  TIM_ClearFlag(TIM1, TIM_FLAG_Update); 
+	//TIM_ClearITPendingBit(TIM1,TIM_IT_Update); 
+	TIM_ITConfig(TIM1, TIM_IT_Update,ENABLE);
+  TIM_Cmd(TIM1,ENABLE);
 }
 
-void TIM3_IRQHandler(void)
+void TIM1_UP_IRQHandler(void)
 {  
-  TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
-	if( TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET)
+	if( TIM_GetITStatus(TIM1,TIM_IT_Update)!=RESET)
 	{
-		TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
 		eMBPoll(); 
+		IWDG_ReloadCounter();    //喂狗
+		TIM_ClearITPendingBit(TIM1,TIM_IT_Update);	
 	}	
 }
