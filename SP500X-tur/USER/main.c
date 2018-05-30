@@ -41,7 +41,7 @@ int main()
   
  	delay_init();
 	
-//	Configure_IWDG();  //配置看门狗
+	Configure_IWDG();  //配置看门狗
 	
  	RestoreModbusReg(); 
 		

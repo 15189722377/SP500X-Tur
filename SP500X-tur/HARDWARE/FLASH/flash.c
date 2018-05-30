@@ -23,7 +23,7 @@
 /* Private_Macros -------------------------------------------------------------*/
 
 //待存储的寄存器类型数
-#define REG_TYPE_NUM	7
+#define REG_TYPE_NUM	6
 
 /* Private_TypesDefinitions ---------------------------------------------------*/
 
@@ -45,9 +45,8 @@ RegStoreType regs_sturct[REG_TYPE_NUM]=
 	{&measure_settings,MSREG_NREGS},
 	{&calib_settings,CALSREG_NREGS},
 	{&filter_settings,FSREG_NREGS},
-	{&measure_values,MVREG_NREGS},
-	{&sensor_param,PHREG_NREGS}
-  
+	//{&measure_values,MVREG_NREGS},
+	{&sensor_param,PHREG_NREGS}  
 };
 
 /* Private_Variables ----------------------------------------------------------*/
