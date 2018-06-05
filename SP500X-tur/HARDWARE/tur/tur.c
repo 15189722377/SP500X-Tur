@@ -56,6 +56,7 @@ void measureTurb(void)
 		ntu=measure_settings.smoothingFactor*ntu+(1.0-measure_settings.smoothingFactor)*lastNTU;
 	}
 	lastNTU=ntu;
+	if(ntu<0) ntu=0;
 	measure_values.sensorValue=ntu;
 }
 
