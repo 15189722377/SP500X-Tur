@@ -57,12 +57,21 @@ int main()
  { 	
 		//eMBPoll(); 
 	  FunctionPoll(); 
-	  //getS365(20);
+	  //getT365(20);
 	  if(isMeasureFlg==1)
 		{
-			isMeasureFlg=0;
-			measureTurb();
+			if(calib_settings.type==1)
+			{
+				isMeasureFlg=0;
+				measureTurb();
+			}
+			else
+			{
+				isMeasureFlg=0;
+				measureTurb_1();			
+			}
 		}
+		
 	}
 }
 

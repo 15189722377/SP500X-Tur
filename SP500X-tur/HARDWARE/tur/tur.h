@@ -23,5 +23,7 @@ void measureTurb(void);
 void TIM2_MeasureInit(void);
 void TIM1_ModpollInit(void);
 float Calib_S365(void);
+float getT365(u16 aveTimes);
+void measureTurb_1(void);
 
 #endif

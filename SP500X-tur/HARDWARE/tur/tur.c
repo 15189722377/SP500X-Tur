@@ -7,32 +7,31 @@ float s365F=1.0;
 u8 measureCount=0;
 u8 isMeasureFlg=0;
 
-// float getS365(u16 aveTimes)
+// float getT365(u16 aveTimes)
 // {
-// 	float S365;
-// 	turnLed1();
+// 	float T365;
+// 	turnLed2();
 // 	delay_ms(10);
 // 	write_to_LTC2630ISC6(0X30,filter_settings.cs365);
-// 	S365=Get_Adc_Average(7,aveTimes);
-// 	filter_settings.s365=S365;
-// 	return S365;
+// 	T365=Get_Adc_Average(6,aveTimes);
+// 	filter_settings.t365=T365;
+// 	return T365;
 // }
 
-/* ADC_ReadChannel的采样次数不可以超过DMA接收数组的长度 */
-void measureTurb(void)
+ void measureTurb_1(void)
 {
 	float ntu,S365,darks365F,adcF;
 	
 	turnOffLeds();
 	delay_ms(15);
-	darks365F=ADC_ReadChannel(S365CHANNEL,100);
+	darks365F=ADC_ReadChannel(7,100);
 	filter_settings.darks365=darks365F*10;
 	
 	write_to_LTC2630ISC6(0X30,filter_settings.cs365);
-	turnLed1();
+	turnLed2();
 	delay_ms(15);
-	adcF=ADC_ReadChannel(S365CHANNEL,200);
-	//turnOffLeds();
+	adcF=ADC_ReadChannel(7,200);
+	turnOffLeds();
 	
 	if(adcF>darks365F)
 	{
@@ -59,6 +58,48 @@ void measureTurb(void)
 	if(ntu<0) ntu=0;
 	measure_values.sensorValue=ntu;
 }
+/* ADC_ReadChannel的采样次数不可以超过DMA接收数组的长度 */
+void measureTurb(void)
+{
+	float ntu,S365,darks365F,adcF;
+	
+	turnOffLeds();
+	delay_ms(15);
+	darks365F=ADC_ReadChannel(6,100);
+	filter_settings.darks365=darks365F*10;
+	
+	write_to_LTC2630ISC6(0X30,filter_settings.cs365);
+	turnLed1();
+	delay_ms(15);
+	adcF=ADC_ReadChannel(6,200);
+	turnOffLeds();
+	
+	if(adcF>darks365F)
+	{
+		s365F=adcF-darks365F;
+		filter_settings.s365=s365F*10;
+		filter_settings.errorCode&=~GROUND_ERR;
+	}
+	else
+	{
+		filter_settings.s365=filter_settings.s365di;
+		filter_settings.errorCode|=GROUND_ERR;
+	}
+	S365=s365F*10/((float)filter_settings.s365di);
+	ntu=filter_settings.slope*(S365-1.0);
+	if(isFirstValue==1)
+	{
+		isFirstValue=0;
+	}
+	else
+	{
+		ntu=measure_settings.smoothingFactor*ntu+(1.0-measure_settings.smoothingFactor)*lastNTU;
+	}
+	lastNTU=ntu;
+	if(ntu<0) ntu=0;
+	measure_values.sensorValue=ntu;
+}
+
 
 float Calib_S365(void)
 {

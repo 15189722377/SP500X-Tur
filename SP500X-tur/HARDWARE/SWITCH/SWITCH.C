@@ -22,6 +22,12 @@ void turnLed1(void)
 	 LED_SW1_H;
 	 LED_SW2_L;
 }
+void turnLed2(void)
+{
+	 EN_H;
+	 LED_SW1_H;
+	 LED_SW2_H;
+}
 
 void turnOffLeds(void)
 {

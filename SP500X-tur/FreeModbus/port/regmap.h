@@ -80,7 +80,8 @@ typedef	struct calibSettings
 	uint16     s365H;                 /* 44010 */
 	float     k;                      /* 44011-44012  float */
 	float     b;                      /* 44013-44014  float */
-	uint16		reserved[36];				    /* 44015-44050 reserved  保留*/
+	uint16    type;                   /* 44015                   测廖物质 0尿素 1余氯*/
+	uint16		reserved[35];				    /* 44016-44050 reserved  保留*/
 } CALIB_SETTINGS_T;
 
 typedef	struct filterSettings    //sensorParam存储未调通 ，暂时使用此寄存器存参数 20180506

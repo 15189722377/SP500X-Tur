@@ -17,5 +17,6 @@
 void switch_GPIOInit(void);
 void turnLed1(void);
 void turnOffLeds(void);
+void turnLed2(void);
 
 #endif
