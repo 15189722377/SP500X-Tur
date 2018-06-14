@@ -362,7 +362,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\UART2;..\FreeModbus\modbus\ascii;..\FreeModbus\modbus\functions;..\FreeModbus\modbus\include;..\FreeModbus\modbus\rtu;..\FreeModbus\modbus\tcp;..\FreeModbus\port;..\HARDWARE\LED;..\HARDWARE\APP;..\HARDWARE\FLASH;..\HARDWARE\AD5410\inc;..\HARDWARE\LTC2440\inc;..\HARDWARE\temperature\inc;..\SYSTEM\delay;..\HARDWARE\G;..\HARDWARE\LTC2630ISC6;..\HARDWARE\SWITCH;..\HARDWARE\ADC;..\HARDWARE\tur</IncludePath>
+              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\UART2;..\FreeModbus\modbus\ascii;..\FreeModbus\modbus\functions;..\FreeModbus\modbus\include;..\FreeModbus\modbus\rtu;..\FreeModbus\modbus\tcp;..\FreeModbus\port;..\HARDWARE\LED;..\HARDWARE\APP;..\HARDWARE\FLASH;..\HARDWARE\AD5410\inc;..\HARDWARE\LTC2440\inc;..\HARDWARE\temperature\inc;..\SYSTEM\delay;..\HARDWARE\G;..\HARDWARE\LTC2630ISC6;..\HARDWARE\SWITCH;..\HARDWARE\ADC;..\HARDWARE\tur;..\HARDWARE\COLOR</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -632,6 +632,11 @@
               <FileName>ADC.C</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\ADC\ADC.C</FilePath>
+            </File>
+            <File>
+              <FileName>color.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\COLOR\color.c</FilePath>
             </File>
           </Files>
         </Group>
