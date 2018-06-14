@@ -65,6 +65,11 @@ int main()
 				isMeasureFlg=0;
 				measureTurb();
 			}
+			else if(calib_settings.type==0)
+			{
+				isMeasureFlg=0;
+				measureTurb_1();
+			}
 			else
 			{
 				isMeasureFlg=0;
