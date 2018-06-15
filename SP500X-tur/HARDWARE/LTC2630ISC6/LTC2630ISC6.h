@@ -15,7 +15,6 @@
 #define __LTC2630ISC6_H__
 
 #include "stm32f10x.h"
-#include "sys.h"
 #include "delay.h"
 
 #define  DAC_CS_HIGH  GPIO_SetBits(GPIOB,GPIO_Pin_14)

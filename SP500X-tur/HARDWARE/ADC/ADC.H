@@ -14,7 +14,6 @@
  #ifndef __ADC_H
 #define __ADC_H	
 #include "stm32f10x.h"
-#include "sys.h"
 #include "delay.h"
 #include "stm32f10x_adc.h"
 

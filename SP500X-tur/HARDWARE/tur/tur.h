@@ -16,14 +16,11 @@
 #define T420CHANNEL ((uint8_t)0x07)
 
 extern float s365F;
-extern u8 isMeasureFlg;
 
 //float getS365(u16 aveTimes);
 void measureTurb(void);
 void TIM2_MeasureInit(void);
 void TIM1_ModpollInit(void);
 float Calib_S365(void);
-float getT365(u16 aveTimes);
-void measureTurb_1(void);
 
 #endif

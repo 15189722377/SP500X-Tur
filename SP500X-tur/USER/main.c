@@ -1,15 +1,6 @@
-#include "stm32f10x.h"
-#include "stm32f10x_iwdg.h"
-#include "sys.h"
-//#include "mb.h"
-//#include "mbutils.h"
-#include "flash.h"
 #include "app.h"
-#include "embreg.h"
 #include "LTC2630ISC6.h"
-#include "SWITCH.H"
-#include "ADC.H"
-#include "tur.h"
+#include "color.h"
 
 void Configure_IWDG(void)
 {
@@ -57,26 +48,25 @@ int main()
  { 	
 		//eMBPoll(); 
 	  FunctionPoll(); 
-	  //getT365(20);
+	  
 	  if(isMeasureFlg==1)
 		{
 			if(calib_settings.type==1)
 			{
 				isMeasureFlg=0;
-				measureTurb();
+				measureClF();
 			}
 			else if(calib_settings.type==0)
 			{
 				isMeasureFlg=0;
-				measureTurb_1();
+				measureUrea();
 			}
 			else
 			{
 				isMeasureFlg=0;
-				measureTurb_1();			
+				measureUrea();			
 			}
-		}
-		
+		}	
 	}
 }
 

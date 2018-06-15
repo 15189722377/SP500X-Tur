@@ -1,5 +1,4 @@
 #include "delay.h"
-#include "sys.h"
 
 static u8  fac_us=0;//us延时倍乘数
 static u16 fac_ms=0;//ms延时倍乘数

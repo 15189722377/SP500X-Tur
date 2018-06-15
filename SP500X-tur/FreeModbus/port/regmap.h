@@ -115,7 +115,7 @@ typedef	struct filterSettings    //sensorParam´æ´¢Î´µ÷Í¨ £¬ÔİÊ±Ê¹ÓÃ´Ë¼Ä´æÆ÷´æ²ÎÊ
 	uint16    errorCode;		      /* 45031   16bit integer   useless r/w */
 	float	  slopeFactory;		      /* 45032   float */
 	uint16    factoryParamSaved;  /* 45034 */
-	uint16		reserved[16];				/* 45035-45050   reserved  ±£Áô*/
+	uint16		reserved[16];				/* 45035-45050   reserved  ??*/
 } FILTER_SETTINGS_T;
 
 typedef struct measureValues
@@ -132,36 +132,7 @@ typedef struct measureValues
 // ÔİÊ±Ã»¿ª±Ù
 typedef	struct sensorParam
 {											/* Register		Type  		 R/W */	
-		uint16    darks365;           /* 48001   16bit integer   it's useless for st510, only uesd to compat with st500 register */
-	float	  slope;			  /* 48002   32bit float     r/w */
-	float     intercept;          /* 48004   32bit float     useless r/w */
-	float	  t1;				  /* 48006   32bit float     r/w */
-	float	  t2;				  /* 48008   32bit float     r/w */
-	uint16    mARange;            /* 48010   16bit integer   r/w   4-20mA scaling factor, mA=ppb*16/mARange+4 */
-	uint16	  ct365;			  /* 48011   16bit integer   r/w */
-	uint16	  cs365;			  /* 48012   16bit integer   r/w */
-	uint16	  ct420;			  /* 48013   16bit integer   r/w */
-	uint16	  cs420;			  /* 48014   16bit integer   r/w */
-	uint16	  t365di;			  /* 48015   16bit integer   r/w */
-	uint16	  s365di;			  /* 48016   16bit integer   r/w */
-	uint16	  t420di;			  /* 48017   16bit integer   r/w */
-	uint16	  s420di;			  /* 48018   16bit integer   r/w */
-	uint16	  t365;				  /* 48019   16bit integer   r/w */
-	uint16	  s365;				  /* 48020   16bit integer   r/w */
-	uint16	  t420;				  /* 48021   16bit integer   r/w */
-	uint16	  s420;				  /* 48022   16bit integer   r/w */
-	uint16	  ct365Factory;		  /* 48023   16bit integer   r/w */
-	uint16	  cs365Factory;		  /* 48024   16bit integer   r/w */
-	uint16	  ct420Factory;		  /* 48025   16bit integer   r/w */
-	uint16	  cs420Factory;		  /* 48026   16bit integer   r/w */
-	uint16	  t365diFactory;	  /* 48027   16bit integer   r/w */
-	uint16	  s365diFactory;	  /* 48028   16bit integer   r/w */
-	uint16	  t420diFactory;	  /* 48029   16bit integer   r/w */
-	uint16	  s420diFactory;	  /* 48030   16bit integer   r/w */
-	uint16    errorCode;		  /* 48031   16bit integer   useless r/w */
-	float	  slopeFactory;		  /* 48032   float */
-	uint16    factoryParamSaved; /* 48034 */
-	uint16 	reserved[16];        /* 48016-48050 */
+	uint16 	reserved[50];        /* 48001-48050 */
 } SENSOR_PARAM_T;
 #pragma pack()
 

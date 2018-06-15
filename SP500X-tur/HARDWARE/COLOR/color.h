@@ -21,5 +21,7 @@
 #include "SWITCH.H"
 #include "ADC.H"
 
+void measureUrea(void);
+void measureClF(void);
 
 #endif

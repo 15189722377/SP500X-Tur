@@ -1,9 +1,10 @@
 #include "app.h"
 #include "products.h"
 #include "string.h"
-#include "tur.h"
 
 u8 bitmodbus;
+u8 isMeasureFlg=0;
+u8 measureCount=0;
 float s365DiCalib,s365CalibL,s365CalibH,S365Calib;
 
 /*------------------Modbus寄存器定义-----------------*/
@@ -63,6 +64,9 @@ void SENSOR_MeasureParameterReset(void)
 	measure_settings.sampleCycle=4;  //uint16
 	memset(measure_settings.reserved,0,sizeof(measure_settings.reserved));
 	
+	memset(filter_settings.reserved,0,sizeof(filter_settings.reserved));
+	memset(sensor_param.reserved,0,sizeof(sensor_param.reserved));
+	
 	StoreModbusReg();
 }
 void Rset()
@@ -98,59 +102,6 @@ void FunctionPoll(void)
 			StoreModbusReg(); 
 			break;
 		}	
-		case CMD_CALIB_STEP1:
-		{
-			calib_settings.calibCommand=CMD_NONE;
-			system_status.calibStatus=NOERR;
-			
-			TIM_Cmd(TIM2,DISABLE); 
-			s365CalibL=Calib_S365();
-			calib_settings.s365L=s365CalibL*10;
-			TIM_Cmd(TIM2,ENABLE); 
-			break;	
-		}
-		case CMD_CALIB_STEP2:
-		{
-			calib_settings.calibCommand=CMD_NONE;
-			
-			TIM_Cmd(TIM2,DISABLE); 
-			s365CalibH=Calib_S365();
-			calib_settings.s365H=s365CalibH*10;
-			TIM_Cmd(TIM2,ENABLE); 
-			if((calib_settings.s365H-calib_settings.s365L)!=0)
-			{
-				calib_settings.k=(calib_settings.solutionH-calib_settings.solutionL)/(s365CalibH-s365CalibL);
-				calib_settings.b=calib_settings.solutionL-calib_settings.k*s365CalibL;
-				if(calib_settings.k>0)
-				{
-					s365DiCalib=-calib_settings.b/calib_settings.k;
-					if(s365DiCalib>0)
-					{
-						S365Calib=s365CalibH/s365DiCalib;
-						if(S365Calib-1.0>0)
-						{
-							filter_settings.slope=calib_settings.solutionH/(S365Calib-1.0);
-							filter_settings.s365di=s365DiCalib*10;
-							system_status.calibStatus=NOERR;
-							StoreModbusReg();
-						}
-					}
-					else
-					{
-						system_status.calibStatus=S365DI_ERR;
-					}
-				}
-				else
-				{
-					system_status.calibStatus=SOLUTION_VALUE_ERR;
-				}
-			}
-			else
-			{
-				system_status.calibStatus=S365_ERR;
-			}
-			break;
-		}
 		case CMD_JUMP_BOOTLOADER:
 		{
 			calib_settings.calibCommand=CMD_NONE;
@@ -161,5 +112,91 @@ void FunctionPoll(void)
 			break;
 		}
 		default: break;
+	}	
+}
+
+void TIM2_MeasureInit(void)
+{
+  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+  NVIC_InitTypeDef NVIC_InitStructure;
+  uint16_t PrescalerValue = 0;
+  
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+  
+  PrescalerValue = (uint16_t) (SystemCoreClock / 10000) - 1; 
+  
+  TIM_TimeBaseStructure.TIM_Period =9999;     //    9999,timing cycle = 1S;改为1秒进一次中断，从而测量周期可调
+  TIM_TimeBaseStructure.TIM_Prescaler = PrescalerValue;  
+  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+  
+  TIM_ARRPreloadConfig(TIM2, ENABLE);
+  
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+  NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;  //1,2
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+
+	TIM_ClearITPendingBit(TIM2,TIM_IT_Update); 
+	TIM_ITConfig(TIM2, TIM_IT_Update,ENABLE);
+  TIM_Cmd(TIM2,ENABLE);
+}
+
+void TIM2_IRQHandler(void)
+{  
+	if( TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)
+	{
+		if(++measureCount>=measure_settings.sampleCycle)
+		{
+ 			IWDG_ReloadCounter();    //喂狗
+			isMeasureFlg=1;
+			measureCount=0;
+		} 
+		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);
+	}	
+}
+
+void TIM1_ModpollInit(void)
+{
+	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+  NVIC_InitTypeDef NVIC_InitStructure;
+  uint16_t PrescalerValue = 0;
+  
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+  
+  PrescalerValue = (uint16_t) (SystemCoreClock / 10000) - 1; // 0.1ms
+  
+  TIM_TimeBaseStructure.TIM_Period =99;     
+  TIM_TimeBaseStructure.TIM_Prescaler = PrescalerValue;  
+  TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseStructure.TIM_RepetitionCounter=0;
+  TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
+  
+  TIM_ARRPreloadConfig(TIM1, ENABLE);
+  
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+  NVIC_InitStructure.NVIC_IRQChannel = TIM1_UP_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;  
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+
+  TIM_ClearFlag(TIM1, TIM_FLAG_Update); 
+	//TIM_ClearITPendingBit(TIM1,TIM_IT_Update); 
+	TIM_ITConfig(TIM1, TIM_IT_Update,ENABLE);
+  TIM_Cmd(TIM1,ENABLE);
+}
+
+void TIM1_UP_IRQHandler(void)
+{  
+	if( TIM_GetITStatus(TIM1,TIM_IT_Update)!=RESET)
+	{
+		eMBPoll(); 
+		IWDG_ReloadCounter();    //喂狗
+		TIM_ClearITPendingBit(TIM1,TIM_IT_Update);	
 	}	
 }
