@@ -25,13 +25,13 @@ void measureTurb(void)
 	
 	turnOffLeds();
 	delay_ms(15);
-	darks365F=ADC_ReadChannel(S365CHANNEL,100);
+	darks365F=ADC_ReadChannel(T420CHANNEL,200);
 	filter_settings.darks365=darks365F*10;
 	
 	write_to_LTC2630ISC6(0X30,filter_settings.cs365);
 	turnLed1();
 	delay_ms(15);
-	adcF=ADC_ReadChannel(S365CHANNEL,200);
+	adcF=ADC_ReadChannel(T420CHANNEL,400);
 	//turnOffLeds();
 	
 	if(adcF>darks365F)
@@ -66,13 +66,13 @@ float Calib_S365(void)
 	
 	turnOffLeds();
 	delay_ms(15);
-	darkC=ADC_ReadChannel(S365CHANNEL,100);
+	darkC=ADC_ReadChannel(T420CHANNEL,200);
 	filter_settings.darks365=darkC*10;
 	
 	write_to_LTC2630ISC6(0X30,filter_settings.cs365);
 	turnLed1();
 	delay_ms(15);
-	adcC=ADC_ReadChannel(S365CHANNEL,200);
+	adcC=ADC_ReadChannel(T420CHANNEL,400);
 	//turnOffLeds();
 	
 	if(adcC>darkC)
