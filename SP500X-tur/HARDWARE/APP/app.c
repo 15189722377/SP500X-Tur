@@ -47,7 +47,7 @@ void SENSOR_MeasureParameterReset(void)
 	memset(system_status.reserved,0,sizeof(system_status.reserved));
 			
 	//通信设置寄存器复位
-	comm_settings.modbusAddr=0x0E;	
+	comm_settings.modbusAddr=38;	
 	comm_settings.modbusDatabits=8;
 	comm_settings.modbusParity=MODBUS_PARITY_EVEN;
 	comm_settings.modbusBaud=9600;
