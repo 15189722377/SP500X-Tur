@@ -39,8 +39,8 @@ void SENSOR_MeasureParameterReset(void)
 	system_status.commStatus=0;
 	system_status.calibStatus=0;     //0  ±Í∂®ø’œ–
 	system_status.configStatus=1;    //0  Œ¥≈‰÷√    1 “—≈‰÷√
-	system_status.productNum=65535;
-	strcpy(system_status.deviceName,"TURBIDITY");
+	system_status.productNum=22001;
+	strcpy(system_status.deviceName,"SPA-500");
 	strcpy(system_status.serial,"10");
 	strcpy(system_status.hardwareVer,HW_VERSION);
 	strcpy(system_status.softwareVer,SW_VERSION);
