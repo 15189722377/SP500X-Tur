@@ -36,6 +36,12 @@ typedef enum
 	S365DI_ERR=0x0004	
 }CalibStatus;
 
+typedef enum
+{
+	AUTO_MODE=0x11,
+	COMMAND_MODE=0x55
+}RunMode;
+
 #pragma pack(2)
 
 typedef	struct sysStatus
@@ -49,7 +55,9 @@ typedef	struct sysStatus
 	char		serial[16];           /* 41015	128bit chaar read */
 	char		hardwareVer[16];      /* 41023	128bit char read */
 	char		softwareVer[16];      /* 41031	128bit char read */
-	uint16		reserved[12];				/* 41039-41050  reserved */
+	uint16    runMode;            /* 41039 */
+	uint16    command;            /* 41040 */
+	uint16		reserved[10];				/* 41041-41050  reserved */
 } SYS_STATUS_T;
 
 typedef struct commSettings
@@ -120,8 +128,9 @@ typedef	struct filterSettings    //sensorParam´æ´¢Î´µ÷Í¨ £¬ÔİÊ±Ê¹ÓÃ´Ë¼Ä´æÆ÷´æ²ÎÊ
 
 typedef struct measureValues
 {																/* Register		Type  		 R/W */
-	float		sensorValue;					/* 46001	32bit float		read  ²âÁ¿Öµ*/
-	float		sensorValue_mA;				/* 46003	32bit float		read  ²âÁ¿Öµ(4-20maĞÎÊ½)*/
+	float		absbValue;					/* 46001	32bit float		read  Îü¹â¶ÈÖµ*/
+	uint16  cmdMode_s365di;				/* 46002	32bit float		read  ²âÁ¿Öµ(4-20maĞÎÊ½)*/
+	uint16  cmdMode_s365;         /* 46003 */
 	float   temperatureValue;			/* 46005	32bit float		read  ÎÂ¶È(ÉãÊÏ¶È)*/
 	uint16		reserved[40];				/* 46011-46050  1eserved  ±£Áô*/
 } MEASURE_VALUES_T;

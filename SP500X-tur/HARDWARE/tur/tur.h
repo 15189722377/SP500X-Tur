@@ -8,7 +8,7 @@
 #include "SWITCH.H"
 #include "ADC.H"
 
-#define GROUND_ERR	0x01
+//#define GROUND_ERR	0x01
 
 #define S365CHANNEL ((uint8_t)0x04)
 #define S420CHANNEL ((uint8_t)0x05)

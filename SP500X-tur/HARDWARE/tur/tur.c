@@ -24,12 +24,12 @@ void measureTurb(void)
 	{
 		s365F=adcF-darks365F;
 		filter_settings.s365=s365F*10;
-		filter_settings.errorCode&=~GROUND_ERR;
+		filter_settings.errorCode&=~ERR_DARK_HIGH;
 	}
 	else
 	{
 		filter_settings.s365=filter_settings.s365di;
-		filter_settings.errorCode|=GROUND_ERR;
+		filter_settings.errorCode|=ERR_DARK_HIGH;
 	}
 	S365=s365F*10/((float)filter_settings.s365di);
 	ntu=filter_settings.slope*(S365-1.0);
@@ -65,13 +65,13 @@ float Calib_S365(void)
 	{
 		s365C=adcC-darkC;
 		filter_settings.s365=s365C*10;
-		system_status.calibStatus&=~GROUND_ERR;
+		system_status.calibStatus&=~ERR_DARK_HIGH;
 	}
 	else
 	{
 		s365C=1.0;
 		filter_settings.s365=filter_settings.s365di;
-		system_status.calibStatus|=GROUND_ERR;
+		system_status.calibStatus|=ERR_DARK_HIGH;
 	}
 	return s365C;
 }

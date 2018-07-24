@@ -5,6 +5,7 @@
 u8 bitmodbus;
 u8 isMeasureFlg=0;
 u8 measureCount=0;
+u8 isSecond=0;
 float s365DiCalib,s365CalibL,s365CalibH,S365Calib;
 
 /*------------------Modbus寄存器定义-----------------*/
@@ -40,6 +41,8 @@ void SENSOR_MeasureParameterReset(void)
 	system_status.calibStatus=0;     //0  标定空闲
 	system_status.configStatus=1;    //0  未配置    1 已配置
 	system_status.productNum=22001;
+	system_status.runMode=AUTO_MODE;  //0x11,自动测量模式；0x55，命令采样模式
+	system_status.command=CMD_IDLE;   //0，无命令；1，开始DI采样；2，停止DI采样；3，开始被测液采样；4停止被测液采样
 	strcpy(system_status.deviceName,"SPA-500");
 	strcpy(system_status.serial,"10");
 	strcpy(system_status.hardwareVer,HW_VERSION);
@@ -155,6 +158,7 @@ void TIM2_IRQHandler(void)
 			isMeasureFlg=1;
 			measureCount=0;
 		} 
+		isSecond=1;
 		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);
 	}	
 }

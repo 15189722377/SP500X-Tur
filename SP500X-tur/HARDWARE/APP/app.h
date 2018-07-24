@@ -11,7 +11,7 @@
 #include "flash.h"
 
 #define HW_VERSION  "1.0"
-#define SW_VERSION  "1.1.1"
+#define SW_VERSION  "1.2"
 
 #define MODBUS_PARITY_NONE 	0
 #define MODBUS_PARITY_ODD 	1
@@ -24,7 +24,14 @@
 #define CMD_CALIB_STEP1	1		//校准
 #define CMD_NONE      0    //NONE
 
-#define GROUND_ERR	0x01
+/*--------------------以下命令用于命令采样模式---------------------*/
+#define CMD_IDLE          0
+#define CMD_DI_START	    1
+#define CMD_DI_STOP		    2
+#define CMD_SAMPLE_START  3
+#define CMD_SAMPLE_STOP   4
+
+#define ERR_DARK_HIGH	0x01
 
 #define S365CHANNEL ((uint8_t)0x04)
 #define S420CHANNEL ((uint8_t)0x05)
@@ -33,6 +40,7 @@
 
 extern u8 bitmodbus;
 extern u8 isMeasureFlg;
+extern u8 isSecond;
 
 //系统相关寄存器声明
 extern SYS_STATUS_T system_status;

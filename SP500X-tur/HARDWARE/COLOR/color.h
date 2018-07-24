@@ -23,5 +23,6 @@
 
 void measureUrea(void);
 void measureClF(void);
+u16 StartMeasureS365(u8 type);
 
 #endif

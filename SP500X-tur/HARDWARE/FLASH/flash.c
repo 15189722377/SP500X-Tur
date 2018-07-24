@@ -190,8 +190,11 @@ void RestoreModbusReg(void)
 		SENSOR_MeasureParameterReset();	
 	}
 	
+	system_status.runMode=AUTO_MODE; //防止软件升级时此寄存器没有赋值
+	system_status.command=CMD_IDLE;  
 	system_status.calibStatus=0;
 	calib_settings.calibCommand=0;
+	filter_settings.errorCode=0;
 
 	memset(system_status.hardwareVer,0,sizeof(system_status.hardwareVer));
 	memset(system_status.softwareVer,0,sizeof(system_status.softwareVer));
