@@ -129,7 +129,7 @@ int main()
 				case CMD_DI_STOP:
 				{
 					sumS365DI=sumS365DI-maxDI-minDI;
-					measure_values.cmdMode_s365di=sumS365DI/(float)(m-2)*10;
+					measure_values.cmdMode_s365di=sumS365DI/(float)(m-2);
 					m=0;
 					sumS365DI=0;
 					maxDI=1;
@@ -155,7 +155,7 @@ int main()
 						else
 						{
 							sumS365=sumS365-max-min;
-					    measure_values.cmdMode_s365=sumS365/(float)(n-2)*10;
+					    measure_values.cmdMode_s365=sumS365/(float)(n-2);
 						  n=0;
 							max=1;
 							min=65535;
