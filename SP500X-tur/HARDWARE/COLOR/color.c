@@ -46,6 +46,7 @@ void measurePD1(u8 channel)
 		filter_settings.s365=filter_settings.s365di;
 		filter_settings.errorCode|=ERR_DARK_HIGH;
 	}
+	//sensor_param.SS365=filter_settings.s365;
 }
 /* ADC_ReadChannel的采样次数不可以超过DMA接收数组的长度 */
 void measureClF(void)
@@ -74,6 +75,7 @@ void measureClF(void)
 		filter_settings.s365=filter_settings.s365di;
 		filter_settings.errorCode|=ERR_DARK_HIGH;
 	}
+	//sensor_param.SS365=filter_settings.s365;
 }
 
 u16 StartMeasureS365(u8 type)

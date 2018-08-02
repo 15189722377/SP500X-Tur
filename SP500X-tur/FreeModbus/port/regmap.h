@@ -141,7 +141,9 @@ typedef struct measureValues
 // ÔÝÊ±Ã»¿ª±Ù
 typedef	struct sensorParam
 {											/* Register		Type  		 R/W */	
-	uint16 	reserved[50];        /* 48001-48050 */
+	uint16 	reserved[19];        /* 48001-48050 */
+	uint16	SS365;
+	uint16 	reserved1[30];
 } SENSOR_PARAM_T;
 #pragma pack()
 

@@ -60,7 +60,7 @@ int main()
  { 	
 		//eMBPoll(); 
 	  FunctionPoll(); 
-	  
+	  sensor_param.SS365=filter_settings.s365;
 	  if(system_status.runMode==AUTO_MODE)
 		{
 			 if(isMeasureFlg==1)
