@@ -40,17 +40,17 @@ void SENSOR_MeasureParameterReset(void)
 	system_status.commStatus=0;
 	system_status.calibStatus=0;     //0  标定空闲
 	system_status.configStatus=1;    //0  未配置    1 已配置
-	system_status.productNum=22001;  //SPA-500CL
+	system_status.productNum=22002;  //SPA-500CL
 	system_status.runMode=AUTO_MODE;  //0x11,自动测量模式；0x55，命令采样模式
 	system_status.command=CMD_IDLE;   //0，无命令；1，开始DI采样；2，停止DI采样；3，开始被测液采样；4停止被测液采样
-	strcpy(system_status.deviceName,"SPA-500CL");
+	strcpy(system_status.deviceName,"SPA-500UR");
 	strcpy(system_status.serial,"10");
 	strcpy(system_status.hardwareVer,HW_VERSION);
 	strcpy(system_status.softwareVer,SW_VERSION);
 	memset(system_status.reserved,0,sizeof(system_status.reserved));
 			
 	//通信设置寄存器复位
-	comm_settings.modbusAddr=38;	
+	comm_settings.modbusAddr=39;	
 	comm_settings.modbusDatabits=8;
 	comm_settings.modbusParity=MODBUS_PARITY_EVEN;
 	comm_settings.modbusBaud=9600;
@@ -61,7 +61,7 @@ void SENSOR_MeasureParameterReset(void)
 	calib_settings.calibCommand=CMD_NONE;   // 功能轮询寄存器值 1校准  2测量范围(4-20代表值)  3恢复出厂设置  7进入BootLoader 
 	calib_settings.solutionL=3.0;//第一校准值
 	calib_settings.solutionH=7.0;
-	calib_settings.type=1;
+	calib_settings.type=0;
 	memset(calib_settings.reserved,0,sizeof(calib_settings.reserved));
 	
 	measure_settings.smoothingFactor=0.3;   //fitPar
