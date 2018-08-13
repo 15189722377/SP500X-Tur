@@ -45,6 +45,8 @@ void measureTurb(void)
 		filter_settings.s365=filter_settings.s365di;
 		filter_settings.errorCode|=GROUND_ERR;
 	}
+	sensor_param.s365=filter_settings.s365;
+	sensor_param.t365=filter_settings.darks365;
 	S365=s365F*10/((float)filter_settings.s365di);
 	ntu=filter_settings.slope*(S365-1.0);
 	if(isFirstValue==1)
