@@ -56,7 +56,8 @@ void measureClF(void)
 	turnOffLeds();
 	delay_ms(15);
 	darks365f=ADC_ReadChannel(T365CHANNEL,100);
-	filter_settings.darks365=darks365f*10;
+	//去除*10操作
+	filter_settings.darks365=darks365f;
 	
 	write_to_LTC2630ISC6(0X30,filter_settings.cs365);
 	turnLed1();
@@ -67,7 +68,8 @@ void measureClF(void)
 	if(adcf>darks365f)
 	{
 		s365f=adcf-darks365f;
-		filter_settings.s365=s365f*10;
+		//去除*10操作
+		filter_settings.s365=s365f;
 		filter_settings.errorCode&=~ERR_DARK_HIGH;
 	}
 	else
