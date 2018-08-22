@@ -27,7 +27,8 @@ void measurePD1(u8 channel)
 	turnOffLeds();
 	delay_ms(15);
 	darks365f=ADC_ReadChannel(T420CHANNEL,100);
-	filter_settings.darks365=darks365f*10;
+	/*保持与FA100一致性，去掉*10操作		20180822 boZhu */
+	filter_settings.darks365=darks365f;			
 	
 	write_to_LTC2630ISC6(0X30,filter_settings.cs365);
 	turnLed2();
@@ -38,7 +39,8 @@ void measurePD1(u8 channel)
 	if(adcf>darks365f)
 	{
 		s365f=adcf-darks365f;
-		filter_settings.s365=s365f*10;
+		/*保持与FA100一致性，去掉*10操作  20180822 boZhu */
+		filter_settings.s365=s365f;
 		filter_settings.errorCode&=~ERR_DARK_HIGH;
 	}
 	else
